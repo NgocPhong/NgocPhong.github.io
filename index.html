@@ -1,0 +1,337 @@
+  <!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Schedule</title>
+      <link rel="stylesheet" href="css/bootstrap.css">
+      <link rel="stylesheet" href="css/MyStyle.css">
+       <link rel="stylesheet" href="css/ember-charts.css">
+         <link rel="stylesheet" href="css/ember-date-picker.min.css">
+           <link rel="stylesheet" href="css/ember-spin-box.min.css">
+
+             <link rel="stylesheet" href="css/pikaday.css">
+      <script src="js/libs/jquery-1.10.2.min.js"></script>
+      <script src="js/libs/jquery.js"></script>
+      
+      <script src="js/libs/moment.js"></script>
+       <script src="js/libs/pikaday.js"></script>
+      
+      <script src="js/libs/handlebars-1.0.0.js"></script>
+      <script src="js/libs/ember.js"></script>
+      <script src="js/libs/ember-data.js"></script>
+      <script src="js/libs/d3.min.js"></script>
+        <link rel="stylesheet" href="css/normalize.css">
+      <script src="js/libs/ember-charts.js"></script>
+      <script src="js/libs/lodash.min.js"></script>
+     
+    </head>
+    <body>
+      <script type="text/x-handlebars" data-template-name="Schedule/index">
+   <div class="form-group">
+     
+              
+              <p class="form-row">
+                <label for="user_email">E-mail:</label>
+                 {{input class="form-control" placeholder="Enter your email or username" type="text" value=name}}
+            
+              </p>
+              <p class="form-row">
+                <label for="user_password">Password:</label>
+                 {{input class="form-control" placeholder="Enter your password" type="text" value=password}}
+               
+              </p>
+              <p class="form-submit-row">
+                 <button {{action "createuser"}}  class="btn-start button large expand green">Đăng kí</button>
+                
+              </p>
+           
+            </div>
+</script>
+ <script type="text/x-handlebars" data-template-name="Schedule/welcome">
+   <h1>Ứng dụng quản lí thời gian</h1>
+   <h2> Đăng nhập thành công</h2>
+</script>
+   <script type="text/x-handlebars" itemController='ScheduleIndex' data-template-name="Schedule/login">
+   <div class="form-group">
+     
+              
+              <p class="form-row">
+                <label for="user_email">E-mail:</label>
+                 {{input class="form-control" placeholder="Enter your email or username" type="text" value=name}}
+            
+              </p>
+              <p class="form-row">
+                <label for="user_password">Password:</label>
+                 {{input class="form-control" placeholder="Enter your password" type="text" value=password}}
+               
+              </p>
+              <p class="form-submit-row">
+                 <button {{action "userlogin"}}  class="btn-start button large expand green">Đăng nhập</button>
+                
+              </p>
+           
+            </div>
+</script>
+
+
+ <script type="text/x-handlebars" data-template-name="Project/Timer">
+<section>
+
+<div class="row timer">
+       <div class="description-container popdown-host ">
+        {{input class="narrow large" placeholder="Enter your work description" type="text" value=newdescription}}
+  
+       </div>
+
+    <div class="">
+         <div class="date-time-container">
+           {{input class="large" type="text" value=time  }}
+        </div>
+    </div>
+        <div {{bind-attr class="button-container isEditting:ediing"}}>
+ 
+        {{#if isEditing}}
+           <button {{action "stop"}} class="btn-start button large expand green">xong</button>
+        {{else}}
+         <button {{action "createtask"}} class="btn-start button large expand green">Lưu</button>
+          
+        {{/if}}
+      
+        </div>
+</div>
+<div>
+<p>danh sách các công việc</p>
+<table class="table table-striped table-bordered">
+       <tr>
+          <th>Mô tả</th>
+          <th>thời gian bắt đầu</th>
+          <th> thời gian kết thúc</th>
+       
+          <th> thời gian thực hiện</th>
+      </tr>
+     {{#each   task in model itemController='task' }}
+       <tr>
+              {{#if isEditing}}
+               <td> {{input   type="text" value=description}}</td>
+               <td> {{input   type="text" value=starttime}}</td>
+               <td> {{input   type="text" value=endtime}}</td>
+                <td> {{input   type="text" value=value}}</td>
+                <td><button {{action "tasksave"}} class="btn-start button green">lưu</button></td>
+
+              {{else}}
+            <td>{{task.description}}</td>
+            <td>{{task.starttime}}</td>
+            <td>{{task.endtime}}</td>
+             <td>{{task.value}}</td>
+            <td><button {{action "edittask"}} class="btn-start button green">chỉnh sửa</button></td>
+            <td><button {{action "removetask"}} class="btn-start button green">Xóa</button></td>
+
+        {{/if}}
+       </tr>
+
+    {{/each}}
+    
+    </table>
+    </div>
+  
+
+    </section>
+</script>
+
+
+<script type="text/x-handlebars" data-template-name="Project/index">
+
+<h2>List of your project</h2>
+ <h4>{{#link-to "Project.New"}}Thêm dự án mới{{/link-to}}</h4>
+   <table class="table table-striped table-bordered">
+       <tr>
+          <th>Project name</th>
+          <th>Descriptionn</th>
+          <th></th>
+      </tr>
+     {{#each Project in model}}
+       <tr>
+            <td>{{#link-to "Project.Timer" Project.id}}{{Project.name}}{{/link-to}}</td>
+            <td>{{Project.description}}</td>
+          <td> {{#link-to "Edit" Project}}Chỉnh sửa {{/link-to}}</td>
+            <td> {{#link-to "Delete" Project}}Xóa {{/link-to}}</td>
+            
+       </tr>
+    {{/each}}
+    
+
+      </table>
+  
+</script>
+<script type="text/x-handlebars" data-template-name="Project/Totalreport">
+<section>
+<h2>Biểu đồ tròn hiển thị tỉ lệ thời gian thực hiện các dự án</h2>
+<div class="row">
+  <div class="col-md-3">
+    <label>từ ngày</label>
+    {{view Schedule.CalendarDatePicker value=fromdate}}
+
+  </div>
+  <div class="col-md-3">
+    <label>đến ngày</label>
+    {{view Schedule.CalendarDatePicker value=todate}}
+
+  </div>
+    <div class="col-md-3">
+ <br>
+    <button {{action "showprojectreport"}} class="btn btn-primary">so sánh giữa các project</button>
+    <div></div>
+  </div>
+</div>
+  {{pie-chart
+        data=projectreport
+      }}
+
+  </section>
+</script>
+
+<script type="text/x-handlebars" data-template-name="Project/TotalTaskreport">
+<section>
+<h2>Biểu đồ thanh hiển thị các khoảng thời gian thực hiện dự án theo ngày </h2>
+<div class="row">
+  <div class="col-md-3">
+    <label>từ ngày</label>
+    {{view Schedule.CalendarDatePicker value=tfromdate}}
+
+  </div>
+  <div class="col-md-3">
+    <label>đến ngày</label>
+    {{view Schedule.CalendarDatePicker value=ttodate}}
+
+  </div>
+  <div class="col-md-3">
+    <label>project</label>
+      <br>
+     {{view Ember.Select
+         content=model
+        
+         optionLabelPath='content.name'
+         optionValuePath='content.id'
+         value=projectid
+       }}
+   
+  </div>
+    <div class="col-md-3">
+
+     <br>
+     <button {{action "showtaskreport"}} class="btn btn-primary">xem timelime</button>
+   
+  </div>
+</div>
+ 
+
+       
+  {{time-series-chart
+     timeDelta='week'
+    barData=taskreport
+      }}
+  </section>
+</script>
+<script type="text/x-handlebars"  data-template-name="Delete">
+    <div class="form-group">
+    <label for="exampleInputEmail1">Tên dự án</label>
+     <p>{{name}}</p>
+    </div>
+    <label for="exampleInputEmail1">mô tả</label>
+      <p>{{description}}</p>
+    </div> 
+    
+    <p>Bạn có muốn xóa không?</p>
+    <button {{action "removeProject"}}  class="btn btn-default"> Xóa</button>
+   
+  </script>
+ 
+<script type="text/x-handlebars"  data-template-name="Project/New">
+    <div class="form-group">
+    <label for="exampleInputEmail1">Tên dự án</label>
+     {{input type="text" class="form-control" placeholder="Tên dự án" 
+              value=newname }}
+    </div>
+    <label for="exampleInputEmail1">Mô tả</label>
+       {{input type="text" class="form-control" placeholder="Mô tả"  
+              value=newdescription }}
+    </div> 
+   
+    <button {{action "createProject"}}   class="btn btn-default"> Thêm</button>
+   
+  </script>
+<script type="text/x-handlebars" data-template-name="Edit">
+  <label >tên dự án</label>
+  {{input class="form-control" type="text" value=model.name}}
+  
+   
+    <label >mô tả</label>
+    
+   {{input class="form-control" type="text" value=model.description}}
+  
+   
+    <button {{action "acceptChanges"}} class="btn btn-default">Lưu</button>
+  
+</script>
+
+
+
+        <script type="text/x-handlebars" data-template-name="application">
+
+         <div class="container">
+
+     
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Your Schedule</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {{#if Schedule.authToken}}
+              
+            
+              <li>{{#link-to "Project"}}Project{{/link-to}}</li>
+              <li>{{#link-to "Project.Totalreport"}}report{{/link-to}}</li>
+              <li>{{#link-to "Project.TotalTaskreport"}}timelime{{/link-to}}</li>
+             {{/if}}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            {{#if Schedule.authToken}}
+              <br>
+              <li>hi, {{Schedule.currentuser}}</li>
+              {{else}}
+              <li >{{#link-to "Schedule.login"}}Đăng nhập{{/link-to}}</li>
+              
+            {{/if}}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      
+      <section class="jumbotron">
+       {{outlet}}
+     
+      </section>
+
+    </div>
+     
+       </script>
+      <script src="js/application.js"></script>
+      <script src="js/router.js"></script>
+  <script  src="js/models/project.js"></script>
+   <script  src="js/models/task.js"></script>
+     <script src='js/controllers/projectcontroller.js'></script>
+      <script src='js/controllers/taskcontroller.js'></script>
+      <script src='js/controllers/usercontroller.js'></script>
+      <script src='js/views/timerview.js'></script>
+      <script src='js/controllers/reportcontroller.js'></script>
+ <script src='js/views/CalendarDatePicker.js'></script>    </body>
+  </html>
