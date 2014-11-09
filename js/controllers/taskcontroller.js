@@ -4,6 +4,8 @@ Schedule.ProjectTimerController = Ember.ArrayController.extend({
   _seconds: 0,
   _minutes: 0,
   _hours: 0,
+  sortProperties: ['value'],
+  sortAscending: true,
   time: function(){
       return this.get('_seconds') + ':' + this.get('_minutes')+':'+this.get('_hours');
   }.property('_seconds','_minutes','_hours'),
@@ -170,10 +172,12 @@ Schedule.TaskController = Ember.ObjectController.extend({
    this.set('isEditing', false);
    
       
-      
+          var task = this.get('model');
    console.log(this.get('model').get('project'));
-      console.log(this.get('description'));
-     this.get('model').save();
+   task.set('endtime' ,new Date(this.get('endtime'))  );
+   task.set('starttime' ,new Date(this.get('starttime'))  );
+      console.log(this.get('starttime'));
+     task.save();
          
     },
      removetask: function () {
