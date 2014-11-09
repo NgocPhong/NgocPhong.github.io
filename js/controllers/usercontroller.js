@@ -5,7 +5,7 @@ content: {},
     userlogin:function(){
 var _data = this.getProperties( "name", "password");
 console.log( _data);
-$.post("http://localhost:8080/api/user/login",
+$.post("https://rocky-dusk-5116.herokuapp.com/api/user/login",
     _data,
     function(data, textStatus, jqXHR)
     {
@@ -18,7 +18,7 @@ $.post("http://localhost:8080/api/user/login",
 var _data = this.getProperties( "name", "password");
 console.log( _data);
 var seft = this;
-$.post("http://localhost:8080/api/user/new",
+$.post("https://rocky-dusk-5116.herokuapp.com/api/user/new",
     _data,
     function(data, textStatus, jqXHR)
     {
@@ -72,7 +72,7 @@ content: {},
       var seft = this;
 var _data = this.getProperties( "name", "password");
 console.log( _data);
-$.post("http://localhost:8080/api/user/login",
+$.post("https://rocky-dusk-5116.herokuapp.com/api/user/login",
     _data,
     function(data, textStatus, jqXHR)
     {
