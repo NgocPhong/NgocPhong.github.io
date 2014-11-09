@@ -5,7 +5,7 @@ window.Schedule = Ember.Application.create({
 });
 
 Schedule.ApplicationAdapter = DS.RESTAdapter.extend({
-	 host: 'http://localhost:8080/api'
+	 host: 'https://rocky-dusk-5116.herokuapp.com/api'
 
 	 
 });
